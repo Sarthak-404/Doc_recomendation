@@ -7,7 +7,7 @@ df = pd.read_excel('Cancer.xlsx')
 # Function to recommend hospitals based on disease
 def recommend(disease):
     fil = df[df['disease'] == disease]
-    hospitals = fil[['name', 'hospital', 'rate']]
+    hospitals = fil[['name', 'hospital', 'rate','fees']]
     hospital_sorted = hospitals.sort_values(by='rate', ascending=False)
     return hospital_sorted
 
@@ -29,7 +29,7 @@ def main():
             recommended_hospitals = recommend(disease_input)
             for index, row in recommended_hospitals.iterrows():
                 unique_key = f"{index}-{row['hospital']}"
-                button_label = f"{row['name']} - {row['hospital']} (Rate: {row['rate']})"
+                button_label = f"{row['name']} - {row['hospital']} (Rate: {row['rate']}) (Fees:-{row['fees']})"#fees
                 if st.button(label=button_label, key=unique_key):
                     selected_hospital = f"You have selected {row['hospital']} for the disease {disease_input}. Rate: {row['rate']}"
                     st.session_state.selected_hospital = selected_hospital
